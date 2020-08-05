@@ -39,11 +39,11 @@ def build_hunspell_package(directory, force_build=False):
     if platform.system() == 'Windows':
         raise RuntimeError("Cannot build directly for windows OS. Please build manually by follow instructions at /libs/msvc/README")
 
-    tmp_lib_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'external', 'build'))
+    build_path = os.path.join(BASE_DIR, 'external', 'build')
     hunspell_so_dir = os.path.join(BASE_DIR, 'hunspell')
-    lib_path = os.path.join(tmp_lib_path, 'lib')
-    if not os.path.exists(tmp_lib_path):
-        os.makedirs(tmp_lib_path)
+    lib_path = os.path.join(build_path, 'lib')
+    if not os.path.exists(build_path):
+        os.makedirs(build_path)
 
     if platform.system() == 'Linux':
         hunspell_library_name = 'libhunspell-1.7.so.0'
@@ -62,7 +62,7 @@ def build_hunspell_package(directory, force_build=False):
         try:
             os.chdir(directory)
             run_proc_delay_print('autoreconf', '-vfi')
-            run_proc_delay_print('./configure', '--prefix='+tmp_lib_path)
+            run_proc_delay_print('./configure', '--prefix='+build_path)
             run_proc_delay_print('make')
             run_proc_delay_print('make', 'install')
         finally:
@@ -117,6 +117,11 @@ def pkgconfig(**kw):
         kw['libraries'] = [lib_name]
 
     return kw
+
+def clean_hunspell_build_dir():
+    build_path = os.path.join(BASE_DIR, 'external', 'build')
+    if os.path.exists(build_path):
+        shutil.rmtree(build_path)
 
 def repair_darwin_link_dep_path():
     # Needed for darwin generated SO files to correctly look in the @loader_path for shared dependencies

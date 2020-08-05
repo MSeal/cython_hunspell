@@ -6,7 +6,7 @@ import platform
 from warnings import warn
 from setuptools import setup, find_packages, Extension
 from distutils.command.build import build
-from build_hunspell import pkgconfig, repair_darwin_link_dep_path
+from build_hunspell import pkgconfig, repair_darwin_link_dep_path, clean_hunspell_build_dir
 from collections import defaultdict
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -82,12 +82,20 @@ class build_ext_compiler_check(build_ext):
         cleanup_pycs()
         build_ext.run(self)
 
+def clean_build_dir():
+    build_path = os.path.join(BASE_DIR, 'build')
+    if os.path.exists(build_path):
+        shutil.rmtree(build_path)
+
 class build_darwin_fix(build):
     def run(self):
         build.run(self)
         # OSX build a shared dependency with an absolute path to the hunspell dylib. This fixes that
         if platform.system() == 'Darwin':
             repair_darwin_link_dep_path()
+        # cibuildwheel tries to manipulate the libraries in the build directory, so clean them up
+        clean_hunspell_build_dir()
+        clean_build_dir()
 
 def version():
     with open(os.path.join(BASE_DIR, 'hunspell', '_version.py'), 'r') as ver:
