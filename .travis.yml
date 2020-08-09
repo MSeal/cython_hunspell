@@ -111,6 +111,9 @@ install:
   - touch .cibuildwheel
   - python setup.py build
   - CYHUNSPELL_FORCE_BUILD=0 pip install .
+  # Nuke these to make sure our tests after this point don't use temporary shared libraries
+  - rm -rf build
+  - rm -rf external/build
 
 script:
   - python -m pytest -vv

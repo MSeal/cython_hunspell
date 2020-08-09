@@ -93,9 +93,9 @@ class build_darwin_fix(build):
         # OSX build a shared dependency with an absolute path to the hunspell dylib. This fixes that
         if platform.system() == 'Darwin':
             repair_darwin_link_dep_path()
-        # cibuildwheel tries to manipulate the libraries in the build directory, so clean them up
-        clean_hunspell_build_dir()
-        clean_build_dir()
+            # cibuildwheel tries to manipulate the libraries in the build directory, so clean them up
+            clean_hunspell_build_dir()
+            clean_build_dir()
 
 def version():
     with open(os.path.join(BASE_DIR, 'hunspell', '_version.py'), 'r') as ver:
