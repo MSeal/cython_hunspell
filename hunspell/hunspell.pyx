@@ -1,6 +1,12 @@
 import os
 import hashlib
 from .platform import detect_cpus
+
+# Temporary fix for Python 3.10
+import collections
+from collections import abc
+collections.MutableMapping = abc.MutableMapping
+
 from cacheman.cachewrap import NonPersistentCache
 from cacheman.cacher import get_cache_manager
 from cacheman.autosync import TimeCount, AutoSyncCache
