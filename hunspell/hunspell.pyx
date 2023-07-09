@@ -168,22 +168,32 @@ cdef class HunspellWrap(object):
         self.dpath = NULL
         cdef Hunspell *holder = NULL
 
-        pyaffpath = os.path.join(self._hunspell_dir, '{}.aff'.format(lang))
-        pydpath = os.path.join(self._hunspell_dir, '{}.dic'.format(lang))
-        for fpath in (pyaffpath, pydpath):
-            if not os.path.isfile(fpath) or not os.access(fpath, os.R_OK):
-                raise HunspellFilePathError("File '{}' not found or accessible".format(fpath))
+        epaths = {}
+        for ft in (".aff",".dic"):
+            filename = lang+ft
+            pathname = os.path.join(self._hunspell_dir, filename)
+            found = False
+            for ext in ("", ".hz", ".gz"):
+                epath = pathname+ext
+                if (os.path.isfile(epath) and os.access(epath, os.R_OK)):
+                    epaths[ft] = epath
+                    found = True
+                    break
+                
+            if (not found):
+                raise HunspellFilePathError(
+                    "Cannot open '{}'".format(pathname))
 
-        next_str = pyaffpath
+        next_str = epaths['.aff']
         try:
             copy_to_c_string(
-                self.prefix_win_utf8_hunspell_path(pyaffpath),
+                self.prefix_win_utf8_hunspell_path(epaths['.aff']),
                 &self.affpath,
                 self._system_encoding
             )
-            next_str = pydpath
+            next_str = epaths['.dic']
             copy_to_c_string(
-                self.prefix_win_utf8_hunspell_path(pydpath),
+                self.prefix_win_utf8_hunspell_path(epaths['.dic']),
                 &self.dpath,
                 self._system_encoding
             )
