@@ -118,7 +118,7 @@ cdef struct ThreadWorkerArgs:
     # Determines if the thread is executing a stem or suggestion callback
     action_type action_e
 
-cdef void *hunspell_worker(void *argument) nogil:
+cdef void *hunspell_worker(void *argument) noexcept nogil:
     cdef ThreadWorkerArgs args
     cdef int i
     args = deref(<ThreadWorkerArgs *>argument)
