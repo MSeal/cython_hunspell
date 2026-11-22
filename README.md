@@ -3,7 +3,7 @@
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/CyHunspell.svg)](https://pypi.python.org/pypi/CyHunspell/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# CyHunspell
+# hunspell-hitalent
 Cython wrapper on Hunspell Dictionary
 
 ## Description
@@ -20,7 +20,7 @@ in-memory caching.
 
 For the simplest install simply run:
 
-    pip install cyhunspell
+    pip install hunspell-hitalent
 
 This will install the hunspell 1.7.0 C++ bindings on your behalf for your platform.
 

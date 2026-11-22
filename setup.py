@@ -104,7 +104,7 @@ def version():
     raise ValueError('No version found in hunspell/_version.py')
 
 setup(
-    name='cyhunspell',
+    name='hunspell-hitalent',
     version=version(),
     author='Matthew Seal',
     author_email='mseal007@gmail.com',
@@ -122,8 +122,7 @@ setup(
     packages=packages,
     test_suite='tests',
     zip_safe=False,
-    url='https://github.com/MSeal/cython_hunspell',
-    download_url='https://github.com/MSeal/cython_hunspell/tarball/v' + version(),
+    url='https://github.com/HiTalentAlgorithms/cython_hunspell',
     package_data=package_data,
     keywords=['hunspell', 'spelling', 'correction'],
     classifiers=[
