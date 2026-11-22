@@ -3,6 +3,5 @@ include LICENSE
 include HUNSPELL_LICENSE_LESSER
 include requirements.txt
 
-exclude requirements-dev.txt
-exclude requirements-test.txt
+include build_hunspell.py tar_download.py requirements-dev.txt requirements-test.txt
 exclude tests
